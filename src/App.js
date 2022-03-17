@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import {useState, lazy, Suspense} from 'react';
 import './App.css';
 
+const Modal = lazy(() => import('./components/Modal.js'));
+
 function App() {
+
+  const [show, setShow] = useState(false);
+
+  function showModal(){
+    setShow(true);
+  }
+
+  function hide(){
+    setShow(false);
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" >
+
+        <Suspense fallback={<div style={{fontSize:'24px'}}>Loading...</div>}>
+
+          {show ? <Modal hide={hide} /> : ''}
+
+      </Suspense>
+
+        <button className='btnShow' onClick={showModal}>Show Modal</button>
     </div>
   );
 }
